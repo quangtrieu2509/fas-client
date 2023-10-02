@@ -1,0 +1,65 @@
+.device-item {
+  height: 120px;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 20px;
+  cursor: pointer;
+}
+
+.device-item .text-content {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: space-evenly;
+  /* text-align: center; */
+  /* width: calc(100% - 100px); */
+  /* width: 100%; */
+}
+
+.device-item .device-item-text {
+  font-size: 18px;
+  /* margin-top: 10px; */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-box-orient: vertical;
+}
+
+.device-item .switch-button-box {
+  margin-left: 20px;
+  display: flex;
+}
+
+.switch-button {
+  margin: auto;
+  width: 70px;
+  min-width: 70px;
+  height: 30px;
+}
+
+.switch-button .ant-switch-handle {
+  width: 26px;
+  height: 26px;
+}
+
+.switch-button.ant-switch-checked .ant-switch-handle {
+  inset-inline-start: calc(100% - 28px) !important;
+}
+
+.switch-button.ant-switch-checked .ant-switch-inner .ant-switch-inner-checked {
+  /* margin-inline-start: 0; */
+  margin-inline-end: 28px;
+}
+
+.switch-button .ant-switch-handle::before {
+  border-radius: 50%;
+}
+
+.switch-button .ant-switch-inner .ant-switch-inner-unchecked,
+.switch-button .ant-switch-inner .ant-switch-inner-checked {
+  font-size: 18px !important;
+  padding-top: 2px;
+}

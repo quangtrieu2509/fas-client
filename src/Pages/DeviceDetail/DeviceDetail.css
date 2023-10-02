@@ -1,0 +1,118 @@
+.device-detail {
+  padding: 20px !important;
+}
+
+.device-detail.box-warning {
+  background-color: rgb(210, 112, 112);
+}
+
+.device-detail .id-content {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.device-detail .text-content {
+  font-size: 18px;
+}
+
+.device-detail .name-content {
+  display: flex;
+  align-items: center;
+}
+
+.device-detail .name-content button {
+  margin-left: 20px;
+  padding: 7px 10px;
+  border-radius: 5px;
+  border-width: 0;
+  background-color: rgb(245, 245, 90);
+  cursor: pointer;
+  width: max-content;
+}
+
+.device-detail .name-content .update-name {
+  position: relative;
+  /* margin-bottom: 200px; */
+}
+
+.device-detail .name-content .update-name .update-name-box {
+  position: absolute;
+  z-index: 1000;
+  top: calc(100% + 15px);
+  left: 0;
+  padding: 20px 30px;
+  background-color: white;
+  display: flex;
+}
+
+.device-detail .name-content .update-name .update-name-box.hide {
+  display: none;
+}
+
+.device-detail .param-content {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 100px;
+  margin-top: 20px;
+}
+
+.device-detail .grid-chart-content {
+  margin: 40px 30px 0 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  background-color: whitesmoke;
+}
+
+.device-detail .grid-chart-content h3 {
+  text-align: center;
+}
+
+.device-detail .grid-chart-content .chart-box {
+  border: 3px solid rgb(133, 234, 210);
+  padding: 10px;
+}
+
+.device-detail.box-warning .grid-chart-content .chart-box {
+  border-color: rgb(210, 112, 112);
+}
+
+.device-detail .device-info {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 30px;
+  margin-top: 20px;
+}
+
+.device-detail .device-info .device-info-box{
+  min-width: 320px;
+}
+
+.device-detail .warning {
+  background-color: red;
+  color: rgb(245, 245, 70);
+  padding: 16px;
+  font-size: 28px;
+  font-weight: 600;
+  height: max-content;
+  min-width: 220px;
+  border-radius: 8px;
+}
+
+.device-detail .warning.ok-state {
+  background-color: rgb(73, 221, 73);
+  color: black;
+}
+
+.update-name-box, #new-device-name {
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 18px;
+}
+
+#new-device-name{
+  outline: none;
+}
+
+.update-name-box{
+  box-shadow: 2px 2px 8px rgba(128, 128, 128, 0.329);
+}

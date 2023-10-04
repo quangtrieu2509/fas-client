@@ -22,7 +22,7 @@ function Login() {
       phoneNumber,
       password
     });
-    const error = await data.message;
+    const error = await data.error;
     if (error) {
       setErrorMesssage(error);
     }

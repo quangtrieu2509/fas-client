@@ -31,9 +31,9 @@ export default function UpdateInfo() {
       email: value.email,
       phoneNumber: value.phoneNumber
     });
-    const msg = await data.message;
-    if (!msg) {
-      setErrorMesssage(msg);
+    const error = await data.error;
+    if (error) {
+      setErrorMesssage(error);
     }
     else {
       alert('Thành công!');

@@ -3,7 +3,7 @@ import { Button, Form, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 
 import "./LoginSignUp.css";
-import { postRequest } from "../../hooks/api";
+import { putRequest } from "../../hooks/api";
 import ErrorMessage from "../../Component/ErrorMessage/ErrorMessage";
 
 function ChangePassword() {
@@ -23,17 +23,17 @@ function ChangePassword() {
       confirmPassword: value.confirmPassword
     });
 
-    const data = await postRequest('/change-password', {
+    const data = await putRequest('/user/change-password', {
       oldPassword: value.oldPassword,
       newPassword: value.newPassword
     });
-    const error = await data.message;
+    const error = await data.error;
     if (error) {
       setErrorMesssage(error);
     }
     else {
       alert('Thành công!');
-      navigate('/');
+      navigate('/update-info');
     }
   };
 

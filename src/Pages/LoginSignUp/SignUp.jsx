@@ -18,17 +18,16 @@ function SignUp() {
   });
 
   const handleSignUp = async () => {
-    const { username, password, name, email, phone } = form.getFieldValue();
+    const { phoneNumber, password, name, email } = form.getFieldValue();
     
-    let data = await postRequest('/register', {
-      username,
+    let data = await postRequest('/user/register', {
+      phoneNumber,
       password,
       name,
-      email,
-      phone
+      email
     });
 
-    const error = await data.message;
+    const error = await data.error;
     if (error) {
       setErrorMesssage(error);
     }
@@ -48,12 +47,33 @@ function SignUp() {
         </p>
         <Form form={form} onFinish={handleSignUp}>
           <Form.Item
-            name="username"
+            name="phoneNumber"
             rules={[
-              { required: true, message: "Cần nhập tên đăng nhập!" }
+              { required: true, message: "Cần nhập số điện thoại!" },
+              {
+                pattern: new RegExp(/^[0-9]*$/),
+                message: "Số điện thoại chỉ chứa số"
+              },
             ]}
           >
-            <Input className="box-input" placeholder="Tên đăng nhập" size="large" />
+            <Input className="box-input" placeholder="Số điện thoại" size="large" />
+          </Form.Item>
+          <Form.Item
+            name="name"
+            rules={[
+              { required: true, message: "Cần nhập họ và tên!" },
+            ]}
+          >
+            <Input className="box-input" placeholder="Họ và tên" size="large" />
+          </Form.Item>
+          <Form.Item
+            name="email"
+            rules={[
+              { required: true, message: "Cần nhập email!" },
+              { type: "email", message: "Sai định dạng email" },
+            ]}
+          >
+            <Input className="box-input" placeholder="Email" size="large" />
           </Form.Item>
           <Form.Item
             name="password"
@@ -92,36 +112,6 @@ function SignUp() {
               placeholder="Xác nhận mật khẩu"
               size="large"
             />
-            {/* <p style={{margin: '0'}}>Abc</p> */}
-          </Form.Item>
-          <Form.Item
-            name="email"
-            rules={[
-              { required: true, message: "Cần nhập email!" },
-              { type: "email", message: "Sai định dạng email" },
-            ]}
-          >
-            <Input className="box-input" placeholder="Email" size="large" />
-          </Form.Item>
-          <Form.Item
-            name="name"
-            rules={[
-              { required: true, message: "Cần nhập họ và tên!" },
-            ]}
-          >
-            <Input className="box-input" placeholder="Họ và tên" size="large" />
-          </Form.Item>
-          <Form.Item
-            name="phone"
-            rules={[
-              { required: true, message: "Cần nhập số điện thoại!" },
-              {
-                pattern: new RegExp(/^[0-9]*$/),
-                message: "Số điện thoại chỉ chứa số"
-              },
-            ]}
-          >
-            <Input className="box-input" placeholder="Số điện thoại" size="large" />
           </Form.Item>
           <Form.Item>
             <Button

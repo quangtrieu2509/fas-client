@@ -17,11 +17,11 @@ function ChangePassword() {
   });
 
   const handleChangePassword = async (value) => {
-    console.log({
-      oldPassword: value.oldPassword,
-      newPassword: value.newPassword,
-      confirmPassword: value.confirmPassword
-    });
+    // console.log({
+    //   oldPassword: value.oldPassword,
+    //   newPassword: value.newPassword,
+    //   confirmPassword: value.confirmPassword
+    // });
 
     const data = await putRequest('/user/change-password', {
       oldPassword: value.oldPassword,

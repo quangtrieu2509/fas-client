@@ -31,28 +31,28 @@ export default function DeviceDetail() {
     GetSystem();
   }, [navigate, id]);
 
-  // useEffect(() => {
-  //   const interval = setInterval(async () => {
-  //     const data = getRequest(`/params/${id}`);
-  //     console.log(await data);
-  //     if (await data) {
-  //       setVal(await data);
-  //     }
-  //     // console.log(val);
-  //   }, 3000);
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      const data = getRequest(`/params/${id}`);
+      console.log(await data);
+      if (await data) {
+        setVal(await data);
+      }
+      // console.log(val);
+    }, 3000);
 
-  //   var interval2;
-  //   if (val?.warning) {
-  //     interval2 = setInterval(async () => {
-  //       boxWarning.current.classList.toggle('box-warning');
-  //     }, 1000);
-  //   } else boxWarning.current.classList.remove('box-warning');
+    var interval2;
+    if (val?.warning) {
+      interval2 = setInterval(async () => {
+        boxWarning.current.classList.toggle('box-warning');
+      }, 1000);
+    } else boxWarning.current.classList.remove('box-warning');
 
-  //   return () => {
-  //     clearInterval(interval);
-  //     clearInterval(interval2);
-  //   }
-  // }, [id, val?.warning]);
+    return () => {
+      clearInterval(interval);
+      clearInterval(interval2);
+    }
+  }, [id, val?.warning]);
 
   const OpenUpdateNameBox = () => {
     document.getElementById('update-name-box').classList.remove('hide');
@@ -74,12 +74,6 @@ export default function DeviceDetail() {
   }
 
   const ChangeState = async () => {
-    // let state;
-    // if (deviceState)
-    //   state = 0;
-    // else state = 1;
-    // console.log(id)
-    // console.log(state)
     setDeviceState(!deviceState);
     const data = await putRequest(`/device/${id}`, { state: !deviceState });
     console.log(await data);
@@ -140,9 +134,6 @@ export default function DeviceDetail() {
         <div className='text-content'>
           <b>Nhiệt độ: </b> {val.temp}°C
         </div>
-        {/* <div className='text-content'>
-          <b>Độ ẩm: </b> {val.humid}%
-        </div> */}
         <div className='text-content'>
           <b>Lửa: </b> {val.fire}
         </div>
@@ -157,13 +148,6 @@ export default function DeviceDetail() {
             name='Nhiệt độ' />
           <h3>Biểu đồ nhiệt độ</h3>
         </div>
-        {/* <div className='chart-box'>
-          <TempChart 
-            val={val?.humid ? Math.round(val?.humid) : 0} 
-            name='Độ ẩm' 
-          />
-          <h3>Biểu đồ độ ẩm</h3>
-        </div> */}
         <div className='chart-box'>
           <TempChart 
             val={val?.gas ? Math.round(val?.gas) : 0} 
@@ -173,7 +157,7 @@ export default function DeviceDetail() {
         </div>
         <div className='chart-box'>
           <TempChart 
-            val={val?.fire ? Math.round(val?.fire) : 4000} 
+            val={val?.fire ? Math.round(val?.fire) : 0} 
             name='Lửa'
           />
           <h3>Biểu đồ lửa</h3>

@@ -9,9 +9,9 @@ import { putRequest } from '../../hooks/api';
 import ErrorMessage from "../../Component/ErrorMessage/ErrorMessage";
 
 export default function UpdateInfo() {
-  const [ form ] = Form.useForm();
+  const [form] = Form.useForm();
   const navigate = useNavigate();
-  const [ errorMessage, setErrorMesssage ] = useState(null);
+  const [errorMessage, setErrorMesssage] = useState(null);
 
   useEffect(() => {
     if (!localStorage.getItem('accessToken')) {
@@ -20,11 +20,11 @@ export default function UpdateInfo() {
   }, [navigate]);
 
   const handleChange = async (value) => {
-    console.log({
-      name: value.customerName,
-      email: value.email,
-      phoneNumber: value.phoneNumber
-    });
+    // console.log({
+    //   name: value.customerName,
+    //   email: value.email,
+    //   phoneNumber: value.phoneNumber
+    // });
 
     const data = await putRequest('/user', {
       name: value.customerName,
@@ -36,6 +36,9 @@ export default function UpdateInfo() {
       setErrorMesssage(error);
     }
     else {
+      localStorage.setItem('name', value.customerName);
+      localStorage.setItem('email', value.email);
+      localStorage.setItem('phoneNumber', value.phoneNumber);
       alert('Thành công!');
       navigate('/');
     }

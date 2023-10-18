@@ -32,14 +32,18 @@ export default function DeviceDetail() {
   }, [navigate, id]);
 
   useEffect(() => {
-    const interval = setInterval(async () => {
-      const data = getRequest(`/params/${id}`);
-      console.log(await data);
-      if (await data) {
-        setVal(await data);
-      }
-      // console.log(val);
-    }, 3000);
+    var interval;
+    if(deviceState){
+      interval = setInterval(async () => {
+        const data = getRequest(`/params/${id}`);
+        // console.log(await data);
+        if (await data) {
+          setVal(await data);
+        }
+        // console.log(val);
+      }, 3000);
+    }
+    else setVal({})
 
     var interval2;
     if (val?.warning) {
@@ -52,7 +56,7 @@ export default function DeviceDetail() {
       clearInterval(interval);
       clearInterval(interval2);
     }
-  }, [id, val?.warning]);
+  }, [deviceState, id, val?.warning]);
 
   const OpenUpdateNameBox = () => {
     document.getElementById('update-name-box').classList.remove('hide');

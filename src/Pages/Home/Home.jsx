@@ -21,7 +21,7 @@ function Home() {
   const GetAllDevices = async () => {
     const data = await getRequest('/device/');
     setAllDevices(await data);
-    console.log(await data);
+    // console.log(await data);
   }
 
   return(

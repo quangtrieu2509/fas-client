@@ -8,6 +8,10 @@
   cursor: pointer;
 }
 
+.device-item-warning {
+  background-color: rgb(255, 94, 94);
+}
+
 .device-item .text-content {
   display: flex;
   flex-direction: column;

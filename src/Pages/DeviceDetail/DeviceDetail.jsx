@@ -6,57 +6,59 @@ import { Switch } from 'antd';
 import './DeviceDetail.css';
 import { getRequest, putRequest } from '../../hooks/api';
 import TempChart from './TempChart';
+import { socket } from '../../configs/socket';
 
 export default function DeviceDetail() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [ device, setDevice ] = useState({});
   const [ val, setVal ] = useState({});
-  const [ deviceState, setDeviceState ] = useState();
+  const [ deviceState, setDeviceState ] = useState(false);
   const boxWarning = useRef(null);
+  const accessToken = localStorage.getItem('accessToken')
 
   useEffect(() => {
-    if (!localStorage.getItem('accessToken')) {
+    if (!accessToken) {
       navigate('/login');
     }
 
     const GetSystem = async () => {
-      const data = getRequest(`/device/${id}`);
-      setDevice(await data);
-      const { state } = await data
-      if (await state) {
-        setDeviceState(true);
-      } else setDeviceState(false);
+      const data = await getRequest(`/device/${id}`);
+      setDevice(data);
+      setDeviceState(data.state ?? false);
     }
     GetSystem();
-  }, [navigate, id]);
+    socket.connect(accessToken)
+  }, [navigate, id, accessToken]);
 
   useEffect(() => {
     var interval;
-    if(deviceState){
+    if (deviceState && val?.warning) {
       interval = setInterval(async () => {
-        const data = getRequest(`/params/${id}`);
-        // console.log(await data);
-        if (await data) {
-          setVal(await data);
-        }
-        // console.log(val);
-      }, 3000);
-    }
-    else setVal({})
-
-    var interval2;
-    if (val?.warning) {
-      interval2 = setInterval(async () => {
         boxWarning.current.classList.toggle('box-warning');
       }, 1000);
     } else boxWarning.current.classList.remove('box-warning');
 
     return () => {
       clearInterval(interval);
-      clearInterval(interval2);
     }
   }, [deviceState, id, val?.warning]);
+
+  useEffect(() => {
+    socket.on(id.toString(), (message) => {
+      setVal(message)
+    })
+  }, [val, id])
+
+  useEffect(() => {
+    if (!deviceState) setVal({})
+    socket.on('overall', (message) => {
+      if (id.toString() === message.deviceId) {
+        if (message.state !== undefined) 
+          setDeviceState(message.state)
+      }
+    })
+  }, [deviceState, id])
 
   const OpenUpdateNameBox = () => {
     document.getElementById('update-name-box').classList.remove('hide');
@@ -71,7 +73,7 @@ export default function DeviceDetail() {
     if (newName === '') { alert('Cần nhập gồm ít nhất 1 kí tự!'); }
     else {
       const data = await putRequest(`/device/${id}`, { name: newName });
-      console.log(await data);
+      console.log(data);
       setDevice({...device, name: newName});
       CloseUpdateNameBox();
     }
@@ -80,8 +82,7 @@ export default function DeviceDetail() {
   const ChangeState = async () => {
     setDeviceState(!deviceState);
     const data = await putRequest(`/device/${id}`, { state: !deviceState });
-    console.log(await data);
-    
+    console.log(data);
   }
 
   return (
@@ -123,7 +124,7 @@ export default function DeviceDetail() {
         }
         
         {
-          val?.warning ?
+          deviceState && val?.warning ?
           <div className='warning'>
             <AlertOutlined /> Nguy hiểm!
           </div>

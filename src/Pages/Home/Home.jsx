@@ -4,25 +4,45 @@ import { useNavigate } from 'react-router-dom';
 import './Home.css';
 import DeviceItem from '../../Component/DeviceItem/DeviceItem';
 import { getRequest } from '../../hooks/api';
+import { socket } from '../../configs/socket';
 
 function Home() {
   const navigate = useNavigate();
   const [allDevices, setAllDevices] = useState([]);
+  const accessToken = localStorage.getItem('accessToken')
 
   useEffect(() => {
-    if (!localStorage.getItem('accessToken')) {
+    if (!accessToken) {
       navigate('/login');
     }
     else {
       GetAllDevices();
+      socket.connect(accessToken)
     }
-  }, [navigate]);
+  }, [navigate, accessToken]);
 
   const GetAllDevices = async () => {
     const data = await getRequest('/device/');
-    setAllDevices(await data);
-    // console.log(await data);
+    setAllDevices(data);
   }
+
+  useEffect(() => {
+    socket.on('overall', (message) => {
+      // console.log(message)
+      let newList = []
+      allDevices.forEach((value, _index) => {
+        if (value._id === message.deviceId) {
+          console.log(message.warning, message.state)
+          if (message.warning !== undefined) 
+            value.warning = message.warning
+          if (message.state !== undefined) 
+            value.state = message.state
+        }
+        newList.push(value)
+      })
+      setAllDevices(newList)
+    })
+  }, [allDevices])
 
   return(
     <div className="device-list page-component">
@@ -34,6 +54,7 @@ function Home() {
             id={e._id}
             name={e.name}
             state={e.state}
+            warning={e.warning}
           />
         )}
       </div>

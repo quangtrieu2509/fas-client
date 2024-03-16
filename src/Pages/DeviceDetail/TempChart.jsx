@@ -60,7 +60,10 @@ export default function TempChart({ val, name }) {
     },
     xaxis: {
       type: "datetime",
-      range: TIME_RANGE_IN_MILLISECONDS
+      range: TIME_RANGE_IN_MILLISECONDS,
+      labels: {
+        datetimeUTC: false
+      }
     },
     yaxis: {
       labels: {
